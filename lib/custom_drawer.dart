@@ -15,7 +15,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Stack(
-        children: [_myDrawer, _myChild],
+        children: [
+          _myDrawer,
+          Transform(
+            transform: Matrix4.identity()..scale(0.5),
+            alignment: Alignment.centerLeft,
+            child: _myChild,
+          )
+        ],
       ),
     );
   }
