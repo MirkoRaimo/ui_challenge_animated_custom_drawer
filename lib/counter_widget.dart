@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class CounterWidget extends StatefulWidget {
-  const CounterWidget({Key? key, required this.title}) : super(key: key);
+  CounterWidget({Key? key, this.appBar, this.title = "Counter widget"})
+      : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -13,6 +14,7 @@ class CounterWidget extends StatefulWidget {
   // always marked "final".
 
   final String title;
+  AppBar? appBar;
 
   @override
   State<CounterWidget> createState() => _CounterWidgetState();
@@ -41,11 +43,12 @@ class _CounterWidgetState extends State<CounterWidget> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
+      appBar: widget.appBar ??
+          AppBar(
+            // Here we take the value from the MyHomePage object that was created by
+            // the App.build method, and use it to set our appbar title.
+            title: Text(widget.title),
+          ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
@@ -66,6 +69,13 @@ class _CounterWidgetState extends State<CounterWidget> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Text(
+              'Check out the animated drawer!',
+              style: Theme.of(context).textTheme.headline5,
+            ),
+            const SizedBox(
+              height: 16.0,
+            ),
             const Text(
               'You have pushed the button this many times:',
             ),
