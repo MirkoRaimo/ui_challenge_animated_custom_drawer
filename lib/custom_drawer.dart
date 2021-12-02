@@ -19,7 +19,7 @@ class CustomDrawerState extends State<CustomDrawer>
   static const double minDragStartEdge = 60;
   static const double maxDragStartEdge = maxSlide - 16;
 
-  final Widget _myDrawer = Container(color: Colors.blue);
+  final Widget _myDrawer = _MyDrawer();
 
   late AnimationController _animationController;
   bool _canBeDragged = false;
@@ -117,4 +117,54 @@ class CustomDrawerState extends State<CustomDrawer>
   void open() => _animationController.forward();
 
   void toggleDrawer() => _animationController.isCompleted ? close() : open();
+}
+
+class _MyDrawer extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.blueAccent,
+      child: SafeArea(
+        child: Theme(
+          data: ThemeData(brightness: Brightness.dark),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: const [
+              Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text(
+                  'My gorgeous drawer',
+                  style: TextStyle(
+                      fontSize: 36.0,
+                      fontWeight: FontWeight.w200,
+                      color: Colors.white),
+                ),
+              ),
+              ListTile(
+                leading: Icon(Icons.new_releases),
+                title: Text('News'),
+              ),
+              ListTile(
+                leading: Icon(Icons.star),
+                title: Text('Favourites'),
+              ),
+              ListTile(
+                leading: Icon(Icons.map),
+                title: Text('Map'),
+              ),
+              ListTile(
+                leading: Icon(Icons.settings),
+                title: Text('Settings'),
+              ),
+              ListTile(
+                leading: Icon(Icons.person),
+                title: Text('Profile'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
