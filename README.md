@@ -1,16 +1,10 @@
-# ui_challenge_animated_custom_drawer
+# flutter_list_starting_point
 
-A new Flutter project.
+In this project, you can see how we can create an animated custom drawer in Flutter!
 
-## Getting Started
+Here you can find an example of the app:
 
-This project is a starting point for a Flutter application.
+<img src="https://github.com/MirkoRaimo/ui_challenge_animated_custom_drawer/blob/master/assets/Custom_Animated_Drawer.gif" height="500">
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This project is based on the talk: <a href="https://youtu.be/FCyoHclCqc8">Implementing complex UI with Flutter - Marcin Szałek | Flutter Europe</a>
