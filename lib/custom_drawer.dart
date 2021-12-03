@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'dart:math' as math;
 
 class CustomDrawer extends StatefulWidget {
   final Widget child;
@@ -15,7 +18,7 @@ class CustomDrawer extends StatefulWidget {
 class CustomDrawerState extends State<CustomDrawer>
     with SingleTickerProviderStateMixin {
   static const Duration _animationDurationMill = Duration(milliseconds: 250);
-  static const double maxSlide = 225.0;
+  static const double maxSlide = 300.0;
   static const double minDragStartEdge = 60;
   static const double maxDragStartEdge = maxSlide - 16;
 
@@ -50,25 +53,44 @@ class CustomDrawerState extends State<CustomDrawer>
         onHorizontalDragStart: _onDragStart,
         onHorizontalDragUpdate: _onDragUpdate,
         onHorizontalDragEnd: _onDragEnd,
-        // onTap: toggle,
         child: AnimatedBuilder(
             animation: _animationController,
             child: widget.child,
             builder: (context, child) {
-              double slide = maxSlide * _animationController.value;
-              double scale = 1 - (_animationController.value * 0.3);
+              double dx = (maxSlide * _animationController.value) -
+                  MediaQuery.of(context).size.width;
 
-              return Stack(
-                children: [
-                  _myDrawer,
-                  Transform(
-                    transform: Matrix4.identity()
-                      ..translate(slide)
-                      ..scale(scale),
-                    alignment: Alignment.centerLeft,
-                    child: child,
-                  )
-                ],
+              log(dx.toString());
+              return Material(
+                color: Colors.blueGrey,
+                child: Stack(
+                  children: [
+                    Transform.translate(
+                      offset: Offset(
+                          (maxSlide * _animationController.value) -
+                              MediaQuery.of(context).size.width,
+                          0),
+                      child: Transform(
+                        transform: Matrix4.identity()
+                          ..setEntry(3, 2, 0.001)
+                          ..rotateY(
+                              math.pi / 2 * (1 - _animationController.value)),
+                        alignment: Alignment.centerRight,
+                        child: _myDrawer,
+                      ),
+                    ),
+                    Transform.translate(
+                      offset: Offset(maxSlide * _animationController.value, 0),
+                      child: Transform(
+                        transform: Matrix4.identity()
+                          ..setEntry(3, 2, 0.001)
+                          ..rotateY(-math.pi / 2 * _animationController.value),
+                        alignment: Alignment.centerLeft,
+                        child: child,
+                      ),
+                    ),
+                  ],
+                ),
               );
             }),
       ),
@@ -128,43 +150,51 @@ class _MyDrawer extends StatelessWidget {
         child: Theme(
           data: ThemeData(brightness: Brightness.dark),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisSize: MainAxisSize.max,
-            children: const [
-              Padding(
+            children: [
+              const Padding(
                 padding: EdgeInsets.all(16.0),
                 child: Text(
-                  'My gorgeous drawer',
+                  'My gorgeous\ndrawer',
                   style: TextStyle(
                       fontSize: 36.0,
                       fontWeight: FontWeight.w200,
                       color: Colors.white),
                 ),
               ),
-              ListTile(
-                leading: Icon(Icons.new_releases),
-                title: Text('News'),
-              ),
-              ListTile(
-                leading: Icon(Icons.star),
-                title: Text('Favourites'),
-              ),
-              ListTile(
-                leading: Icon(Icons.map),
-                title: Text('Map'),
-              ),
-              ListTile(
-                leading: Icon(Icons.settings),
-                title: Text('Settings'),
-              ),
-              ListTile(
-                leading: Icon(Icons.person),
-                title: Text('Profile'),
-              ),
+              ListTileToRight(text: 'News', iconData: Icons.new_releases),
+              ListTileToRight(text: 'Favourites', iconData: Icons.star),
+              ListTileToRight(text: 'Map', iconData: Icons.map),
+              ListTileToRight(text: 'Settings', iconData: Icons.settings),
+              ListTileToRight(text: 'Profile', iconData: Icons.person),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class ListTileToRight extends StatelessWidget {
+  ListTileToRight({Key? key, required this.text, this.iconData})
+      : super(key: key);
+
+  String text;
+  IconData? iconData;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Row(
+        children: [
+          Expanded(
+            child: Container(),
+          ),
+          Text(text),
+        ],
+      ),
+      trailing: Icon(iconData),
     );
   }
 }
